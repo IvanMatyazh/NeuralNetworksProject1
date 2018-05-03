@@ -4,23 +4,40 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NNProject1.GUI"
+        xmlns:uihelper="clr-namespace:NNProject1.GUI.UI.Common"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="505.117">
+        Title="MainWindow" Height="500" Width="505">
     <Grid>
-        <Menu x:Name="menu" HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="492">
+        <Menu HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="492">
             <MenuItem Header="File" Width="50">
-                <MenuItem Name="OpenFileItem" Header="Open File" Click="OpenFile_Click" />
+                <MenuItem Header="Open File" Command="{Binding OpenFileCommand}" />
                 <Separator/>
-                <MenuItem Header="Exit" />
+                <MenuItem Header="Exit" Command="{Binding ExitCommand}" />
             </MenuItem>
         </Menu>
-        <Button x:Name="CreateAssociativeMemoryButton" Content="Create Associative Memory" HorizontalAlignment="Left" Margin="0,24,0,0" VerticalAlignment="Top" Width="208" RenderTransformOrigin="-3.379,-3.509" Height="68" IsEnabled="False" Click="CreateAssociativeMemoryButton_Click" />
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="445" Margin="208,24,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="284" IsReadOnly="True" ScrollViewer.CanContentScroll="True" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"/>
-       
-        <Button x:Name="TestVectorButton" Content="Test" HorizontalAlignment="Left" IsEnabled="False" Margin="0,404,0,0" VerticalAlignment="Top" Width="208" Height="65" Click="TestVectorButton_Click"/>
-        <TextBox x:Name="InputTextBox" IsEnabled="False" HorizontalAlignment="Left" Height="28" Margin="0,371,0,0" TextWrapping="Wrap" Text="Please add a test vector" VerticalAlignment="Top" Width="208"/>
-        <Label x:Name="label" Content="Test Vector:" HorizontalAlignment="Left" Margin="0,345,0,0" VerticalAlignment="Top"/>
 
-
+        <Button Content="Create Associative Memory" HorizontalAlignment="Left" 
+                Margin="0,24,0,0" VerticalAlignment="Top" Width="208" 
+                RenderTransformOrigin="-3.379,-3.509" Height="68" 
+                Command="{Binding CreateMemoryCommand}" />
+        <TextBox uihelper:TextBoxBehaviour.AlwaysScrollToEnd="True" 
+                 HorizontalAlignment="Left" 
+                 Height="445" Margin="208,24,0,0" 
+                 TextWrapping="Wrap" VerticalAlignment="Top" 
+                 Width="284" IsReadOnly="True" 
+                 ScrollViewer.CanContentScroll="True" 
+                 HorizontalScrollBarVisibility="Visible" 
+                 VerticalScrollBarVisibility="Visible"
+                 Text="{Binding ConsoleText}"/>
+        <Button Content="Test" HorizontalAlignment="Left"
+                Margin="0,404,0,0" VerticalAlignment="Top" 
+                Width="208" Height="65" Command="{Binding TestVectorCommand}"/>
+        <TextBox HorizontalAlignment="Left" Height="28" 
+                 Margin="0,371,0,0" TextWrapping="Wrap" 
+                 Text="{Binding TestVectorText}" 
+                 VerticalAlignment="Top" Width="208"
+                 IsEnabled="{Binding IsEnabledTestVectorTextBox}"/>
+        <Label Content="Test Vector:" HorizontalAlignment="Left" 
+               Margin="0,345,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
