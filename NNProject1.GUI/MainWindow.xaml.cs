@@ -31,6 +31,7 @@ namespace NNProject1.GUI
         private bool _isEnabledTestVectorTextBox = false;
         private string _testVectorText = "Please add a test vector";
         private string _consoleText = string.Empty;
+        private ConsoleWriter _writer;
 
         public bool IsEnabledTestVectorTextBox
         {
@@ -89,7 +90,9 @@ namespace NNProject1.GUI
         {
             DataContext = this;
             InitializeComponent();
-            AppendToConsole("Welcome to our Neural Networks Project");
+            _writer = new ConsoleWriter();
+            _writer.Write("Welcome to our Neural Networks Project");
+            ConsoleText = _writer.Text;
         }
 
         private void OnExitClick(object obj)
@@ -114,16 +117,8 @@ namespace NNProject1.GUI
                 }
                 finally
                 {
-                    if(_input != null)
-                    {
-                        int index = 0;
-                        foreach (List<int> l in _input.Values)
-                        {
-                            AppendToConsole("Vector " + index);
-                            AppendListToConsole(l);
-                            index++;
-                        }
-                    }
+                    _writer.Write(_input);
+                    ConsoleText = _writer.Text;
                 }
             }
         }
@@ -147,12 +142,13 @@ namespace NNProject1.GUI
             {
                 if(_associativeMemory != null)
                 {
-                    AppendToConsole("Associative memory created");
-                    AppendToConsole("Hopfield Matrix");
-                    AppendToConsole(_associativeMemory.T.ToString());
-                    AppendToConsole("Now you can input a test vector of length " + _input.VectorSize);
+                    _writer.Write("Associative memory created");
+                    _writer.Write("Hopfield Matrix");
+                    _writer.Write(_associativeMemory);
+                    _writer.Write("Now you can input a test vector of length " + _input.VectorSize);
                     TestVectorText = string.Empty;
                     IsEnabledTestVectorTextBox = true;
+                    ConsoleText = _writer.Text;
                 }               
             }
         }
@@ -165,23 +161,21 @@ namespace NNProject1.GUI
         private void OnTestVectorClick(object obj)
         {
             _testVector = new List<int>();
-            string line = TestVectorText;
             char[] charSeparators = new char[] { ',', ' ' };
-            if (line != null)
+            if (!string.IsNullOrEmpty(TestVectorText))
             {
-                string[] lineSplit = line.Split(charSeparators,StringSplitOptions.RemoveEmptyEntries);
+                string[] lineSplit = TestVectorText.Split(charSeparators,StringSplitOptions.RemoveEmptyEntries);
                 if (lineSplit.Length == _input.VectorSize)
                 {
                     foreach(var v in lineSplit)
                     {
-                        _testVector.Add(int
-                            .Parse(v));
+                        _testVector.Add(int.Parse(v));
                     }
-                    AppendToConsole("Test Vector");
-                    AppendListToConsole(_testVector);
+                    _writer.Write("Test Vector");
+                    _writer.Write(_testVector);
                     var result = _associativeMemory.Test(_testVector);
-                    AppendToConsole("Result after testing");
-                    AppendListToConsole(result.Result);
+                    _writer.Write(result);
+                    ConsoleText = _writer.Text;
                 }
                 else
                 {
@@ -193,31 +187,7 @@ namespace NNProject1.GUI
                 MessageBox.Show("Please try with a valid vector again");
             }
         }
-
-        private void AppendFreeLineToConsole()
-        {
-            ConsoleText += "\n";
-        }
-
-        private void AppendToConsole(string text)
-        {
-            ConsoleText += text;
-            AppendFreeLineToConsole();
-            AppendFreeLineToConsole();
-        }
-
-        private void AppendListToConsole(List<int> list)
-        {
-            StringBuilder text = new StringBuilder();
-            text.Append("[ ");
-            foreach (var v in list)
-            {
-                text.Append(v + " ");
-            }
-            text.Append("]");
-            AppendToConsole(text.ToString());
-        }
-
+        
         public void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
