@@ -167,15 +167,14 @@ namespace NNProject1.GUI
                 string[] lineSplit = TestVectorText.Split(charSeparators,StringSplitOptions.RemoveEmptyEntries);
                 if (lineSplit.Length == _input.VectorSize)
                 {
-                    foreach(var v in lineSplit)
+                    if (IsValidInput(lineSplit))
                     {
-                        _testVector.Add(int.Parse(v));
+                        ParseInput(lineSplit);
                     }
-                    _writer.Write("Test Vector");
-                    _writer.Write(_testVector);
-                    var result = _associativeMemory.Test(_testVector);
-                    _writer.Write(result);
-                    ConsoleText = _writer.Text;
+                    else
+                    {
+                        MessageBox.Show("Coudn't parse vector: Test Vector should consist of integers");
+                    }
                 }
                 else
                 {
@@ -191,6 +190,30 @@ namespace NNProject1.GUI
         public void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private bool IsValidInput(string[] elements)
+        {
+            int val;
+            foreach(var elem in elements)
+            {
+                if (!int.TryParse(elem, out val))
+                    return false;
+            }
+            return true;
+        }
+
+        private void ParseInput(string[] lineSplit)
+        {
+            foreach (var v in lineSplit)
+            {
+                _testVector.Add(int.Parse(v));
+            }
+            _writer.Write("Test Vector");
+            _writer.Write(_testVector);
+            var result = _associativeMemory.Test(_testVector);
+            _writer.Write(result);
+            ConsoleText = _writer.Text;
         }
     }
 }
