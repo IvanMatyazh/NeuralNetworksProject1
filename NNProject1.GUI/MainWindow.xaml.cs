@@ -159,7 +159,23 @@ namespace NNProject1.GUI
         private void OnInputMatrixClick(object obj)
         {
             var window = new InputMatrixWindow();
-            window.ShowDialog();
+            if(window.ShowDialog() == true)
+            {
+                try
+                {
+                    var values = window.Cells.ConvectFromMatrixCells(window.M, window.N);
+                    _input = new Input(values, window.M, window.N);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error creating input class" + ex.Message);
+                }
+                finally
+                {
+                    _writer.Write(_input);
+                    ConsoleText = _writer.Text;
+                }
+            }
         }
 
         private bool CanExecuteTestVectorClick(object obj)

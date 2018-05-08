@@ -5,11 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NNProject1.GUI.UI.Windows"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="InputMatrixWindow" Height="300" Width="400">
+        Title="Input Matrix" Height="300" Width="500">
     <Grid>
-        <ItemsControl ItemsSource="{Binding Elements, UpdateSourceTrigger=PropertyChanged}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label Content="Number of columns" Margin="10"/>
+            <TextBox Text="{Binding N}" MinWidth="50" Width="50" Margin="10"/>
+            <Label Content="Number of rows" Margin="10" />
+            <TextBox Text="{Binding M}" MinWidth="50" Width="50" Margin="10" />
+            <Button Content="Update size" Command="{Binding UpdateSizeCommand}" Margin="10" />
+        </StackPanel>
+        <ItemsControl Grid.Row ="1" ItemsSource="{Binding Cells, UpdateSourceTrigger=PropertyChanged}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Rows="{Binding M}" Columns="{Binding N}"/>
@@ -17,10 +28,21 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Content="{Binding}"/>
-                    <!--<xctk:IntegerUpDown Increment="2" Minimum="-1" Maximum="1" Value="N" />-->
+                    <Button Content="{Binding Value}" Margin="5"
+                            Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.ChangeValueCommand}" 
+                            CommandParameter="{Binding Position}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Cancel" Grid.Column="1" Margin="5" IsCancel="True"/>
+            <Button Content="Create Matrix" Grid.Column="2" Margin="5" 
+                    IsDefault="True" Command="{Binding CreateMatrixCommand}"/>
+        </Grid>
     </Grid>
 </Window>

@@ -48,6 +48,22 @@ namespace NNProject1.DataModel
             fileStream.Close();
         }
 
+        public Input(List<List<int>> values, int rows, int columns)
+        {
+            Values = new List<List<int>>();
+            for (int i = 0; i < rows; i++)
+            {
+                List<int> row = new List<int>();
+                for (int j = 0; j < columns; j++)
+                {
+                    row.Add(values[i][j]);
+                }
+                Values.Add(row);
+            }
+            NumberOfVectors = rows;
+            VectorSize = columns;
+        }
+
         private List<int> ParseLine(string[] elements)
         {
             List<int> tempVector = new List<int>(VectorSize);
