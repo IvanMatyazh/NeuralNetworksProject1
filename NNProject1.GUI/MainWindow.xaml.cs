@@ -79,11 +79,13 @@ namespace NNProject1.GUI
         private RelayCommand _exitCommand;
         private RelayCommand _createMemoryCommand;
         private RelayCommand _testVectorCommand;
+        private RelayCommand _inputMatrixCommand;
 
         public RelayCommand OpenFileCommand => _openFileCommand ?? (_openFileCommand = new RelayCommand(OnOpenFileClick));
         public RelayCommand ExitCommand => _exitCommand ?? (_exitCommand = new RelayCommand(OnExitClick));
         public RelayCommand CreateMemoryCommand => _createMemoryCommand ?? (_createMemoryCommand = new RelayCommand(OnCreateMemoryClick, CanExecuteCreateMemoryClick));
         public RelayCommand TestVectorCommand => _testVectorCommand ?? (_testVectorCommand = new RelayCommand(OnTestVectorClick, CanExecuteTestVectorClick));
+        public RelayCommand InputMatrixCommand => _inputMatrixCommand ?? (_inputMatrixCommand = new RelayCommand(OnInputMatrixClick));
         #endregion
 
         public MainWindow()
@@ -151,6 +153,11 @@ namespace NNProject1.GUI
                     ConsoleText = _writer.Text;
                 }               
             }
+        }
+
+        private void OnInputMatrixClick(object obj)
+        {
+            MessageBox.Show("Works");
         }
 
         private bool CanExecuteTestVectorClick(object obj)
