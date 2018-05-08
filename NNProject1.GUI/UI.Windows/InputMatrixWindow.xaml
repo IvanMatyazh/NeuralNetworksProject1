@@ -5,25 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NNProject1.GUI.UI.Windows"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="InputMatrixWindow" Height="300" Width="300">
+        Title="InputMatrixWindow" Height="300" Width="400">
     <Grid>
-        <ItemsControl>
+        <ItemsControl ItemsSource="{Binding Elements, UpdateSourceTrigger=PropertyChanged}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Rows="8" Columns="8"/>
+                    <UniformGrid Rows="{Binding M}" Columns="{Binding N}"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Content="{Binding}" Margin="0,0,5,5"/>
+                    <Button Content="{Binding}"/>
+                    <!--<xctk:IntegerUpDown Increment="2" Minimum="-1" Maximum="1" Value="N" />-->
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-            <system:String>Item #1</system:String>
-            <system:String>Item #2</system:String>
-            <system:String>Item #3</system:String>
-            <system:String>Item #4</system:String>
-            <system:String>Item #5</system:String>
         </ItemsControl>
     </Grid>
 </Window>
