@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using NNProject1.GUI.UI.Common;
 using System.ComponentModel;
+using NNProject1.GUI.UI.Windows;
 
 namespace NNProject1.GUI
 {
@@ -157,7 +158,8 @@ namespace NNProject1.GUI
 
         private void OnInputMatrixClick(object obj)
         {
-            MessageBox.Show("Works");
+            var window = new InputMatrixWindow();
+            window.ShowDialog();
         }
 
         private bool CanExecuteTestVectorClick(object obj)
